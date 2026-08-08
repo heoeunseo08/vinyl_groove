@@ -39,10 +39,34 @@ const Map<String, String> genresCode = {
   "ETC": "기타",
 };
 
-const Map<String, String> sortCode = {
-  "popular": "인기 매물",
-  "recent": "최신 등록",
-  "price_asc": "가격 인하",
+Map<String, String> sortCode({bool search = false}) {
+  if (search) {
+    return {
+      "recent": "최신 등록순",
+      "popular": "인기 매물순",
+      "price_asc": "최저 가격순",
+    };
+  }
+
+  return {
+    "popular": "인기 매물",
+    "recent": "최신 등록",
+    "price_asc": "가격 인하",
+  };
+}
+
+const Map<String, String> conditionCode = {
+  "M": "Mint",
+  "NM": "NM",
+  "VG+": "VG+",
+  "VG": "VG",
+  "G": "G",
+};
+
+const Map<String, String> tradeMethodCode = {
+  'DIRECT': '직거래',
+  'DELIVERY': '택배',
+  'BOTH': '둘 다',
 };
 
 class keys {}

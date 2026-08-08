@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> load() async {
     await productController.loadList(
-      sort: sortCode.keys.elementAt(currentIndex),
+      sort: sortCode().keys.elementAt(currentIndex),
       limit: 10,
     );
     setState(() {});
@@ -256,8 +256,8 @@ class _HomeScreenState extends State<HomeScreen> {
       children: List.generate(
         3,
         (index) {
-          final code = sortCode.keys.elementAt(index);
-          final label = sortCode.values.elementAt(index);
+          final code = sortCode().keys.elementAt(index);
+          final label = sortCode().values.elementAt(index);
           return tabButton(label, code, index);
         },
       ),
@@ -326,11 +326,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   bottom: 8,
                   left: 8,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 4,vertical: 2),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(4),color: coverColor),
-                    child: Text(model.condition,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 12),),
+                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: coverColor,
+                    ),
+                    child: Text(
+                      model.condition,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 12,
+                      ),
+                    ),
                   ),
-                )
+                ),
               ],
             ),
             Padding(
@@ -338,12 +347,30 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-              Text(model.albumName,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 12)),
-              Text(model.artist,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 10,color: subColor)),
-              Text("₩ $won",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 12,color: mainColor)),
+                  Text(
+                    model.albumName,
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    model.artist,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 10,
+                      color: subColor,
+                    ),
+                  ),
+                  Text(
+                    "₩ $won",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                      color: mainColor,
+                    ),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

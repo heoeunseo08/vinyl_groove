@@ -11,6 +11,7 @@ class ProductController {
   ProductDetailModel? detailModel;
   bool hasNext = true;
   int page = 1;
+  int total_items = 0;
 
   Future<void> loadList({
     String? sort,
@@ -65,6 +66,7 @@ class ProductController {
         final pagination = data['pagination'];
         if (pagination != null) {
           hasNext = pagination['hasNext'];
+          total_items = pagination['totalCount'];
           page++;
         } else {
           hasNext = false;
@@ -81,14 +83,16 @@ class ProductController {
     isDetailLoading = true;
 
     try {
-      final url = Uri.parse("http://$baseUrl/products/$product_id?userId=$user_id");
+      final url = Uri.parse(
+        "http://$baseUrl/products/$product_id?userId=$user_id",
+      );
       final res = await http.get(url, headers: header);
 
       print(res.statusCode);
       print(res.body);
 
       final data = jsonDecode(res.body);
-      if(res.statusCode == 200){
+      if (res.statusCode == 200) {
         detailModel = ProductDetailModel.fromJson(data['data']);
       }
     } catch (e) {

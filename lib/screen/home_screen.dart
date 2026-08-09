@@ -54,11 +54,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     recommentLoad();
     load();
 
-    discController = AnimationController(vsync: this);
+    discController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 4),
+    );
     snapController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
+  }
+
+  void setPlaying(bool playing) {
+    setState(() => isPlaying = playing);
+    if (playing) {
+      discController.repeat();
+    } else {
+      discController.stop();
+    }
   }
 
   Future<void> load() async {
@@ -119,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: subColor.withOpacity(0.3),
+                      color: subColor.withValues(alpha: 0.3),
                       width: 1.5,
                     ),
                     borderRadius: BorderRadius.circular(8),
@@ -265,7 +277,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             top: 15,
                             left: 135,
                             child: Listener(
-                              onPointerDown: (_) => setState(() => isDragTonearm = true),
+                              onPointerDown: (_) =>
+                                  setState(() => isDragTonearm = true),
                               onPointerUp: (_) {
                                 setState(() => isDragTonearm = false);
 
@@ -274,28 +287,41 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 final snap = play <= start;
                                 final target = snap ? playAng : startAng;
 
-                                snapAnimation = Tween<double>(begin: toneAng, end: target).animate(
-                                  CurvedAnimation(parent: snapController, curve: Curves.easeOut),
-                                )..addListener(() => setState(() => toneAng = snapAnimation.value));
+                                snapAnimation =
+                                    Tween<double>(
+                                        begin: toneAng,
+                                        end: target,
+                                      ).animate(
+                                        CurvedAnimation(
+                                          parent: snapController,
+                                          curve: Curves.easeOut,
+                                        ),
+                                      )
+                                      ..addListener(
+                                        () => setState(
+                                          () => toneAng = snapAnimation.value,
+                                        ),
+                                      );
 
-                                snapController.forward(from: 0).then((value) {
-                                  setState(() => isPlaying = snap);
-                                  if (snap) {
-                                    discController.repeat();
-                                  } else {
-                                    discController.stop();
-                                  }
-                                });
+                                snapController
+                                    .forward(from: 0)
+                                    .then((value) => setPlaying(snap));
                               },
                               child: GestureDetector(
                                 onPanUpdate: (details) => setState(() {
                                   toneAng += details.delta.dy * 0.005;
-                                  toneAng = toneAng.clamp(startAng, playAng + 0.15);
+                                  toneAng = toneAng.clamp(
+                                    startAng,
+                                    playAng + 0.15,
+                                  );
                                 }),
                                 child: Transform.rotate(
                                   angle: -toneAng,
                                   alignment: Alignment(0.64, -0.05),
-                                  child: Image.asset('assets/images/tonearm.png', width: 180),
+                                  child: Image.asset(
+                                    'assets/images/tonearm.png',
+                                    width: 180,
+                                  ),
                                 ),
                               ),
                             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vinyl_groove/screen/favorite_screen.dart';
 import 'package:vinyl_groove/screen/home_screen.dart';
 import 'package:vinyl_groove/screen/my_screen.dart';
 import 'package:vinyl_groove/screen/search_screen.dart';
@@ -18,14 +19,19 @@ class AppScreen extends StatefulWidget {
 class _AppScreenState extends State<AppScreen> {
   int currentIndex = 0;
 
+  late List<Widget> pages = [
+    HomeScreen(),
+    SearchScreen(genre: widget.genre),
+    FavoriteScreen(),
+    MyScreen(),
+  ];
 
-  late List<Widget> pages = [HomeScreen(), SearchScreen(genre: widget.genre), MyScreen()];
-
-  List<String> labels = ['홈', '탐색', '마이페이지'];
+  List<String> labels = ['홈', '탐색', '관심상품', '마이페이지'];
 
   List<IconData> icons = [
     CupertinoIcons.home,
     CupertinoIcons.search,
+    Icons.favorite_border,
     CupertinoIcons.person,
   ];
 
@@ -62,6 +68,9 @@ class _AppScreenState extends State<AppScreen> {
           ),
           Expanded(
             child: item(index: 2, label: labels[2], icon: icons[2]),
+          ),
+          Expanded(
+            child: item(index: 3, label: labels[3], icon: icons[3]),
           ),
         ],
       ),

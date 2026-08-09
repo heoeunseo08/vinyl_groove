@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:vinyl_groove/model/product_model.dart';
 
 final String baseUrl = "10.0.2.2:8080";
 
@@ -17,6 +19,10 @@ String name = "";
 String phone = "";
 
 bool get isLogin => token.isNotEmpty;
+
+String won(dynamic value){
+  return NumberFormat('#,###').format(value);
+}
 
 Color mainColor = Color(0xffD4A54B);
 Color subColor = Color(0xffa5a5a5);

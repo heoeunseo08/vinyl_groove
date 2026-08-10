@@ -6,6 +6,7 @@ import 'package:vinyl_groove/controller/notif_controller.dart';
 import 'package:vinyl_groove/controller/product_controller.dart';
 import 'package:vinyl_groove/model/product_model.dart';
 import 'package:vinyl_groove/screen/alarm_screen.dart';
+import 'package:vinyl_groove/screen/barcode_screen.dart';
 import 'package:vinyl_groove/screen/detail_screen.dart';
 import 'package:vinyl_groove/utils/info.dart';
 import 'package:vinyl_groove/utils/utils.dart';
@@ -173,10 +174,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                 GestureDetector(
-                  onTap: () => showMessage("준비 중입니다."),
+                  onTap: () => toPage(context, BarcodeScreen()),
                   child: SvgPicture.asset(
                     "assets/icons/barcode-scan.svg",
-                    color: Colors.white,
+                    color: subColor,
                     height: 25,
                   ),
                 ),

@@ -8,6 +8,7 @@ import 'package:vinyl_groove/controller/product_controller.dart';
 import 'package:vinyl_groove/model/product_model.dart';
 import 'package:vinyl_groove/screen/alarm_screen.dart';
 import 'package:vinyl_groove/screen/app_screen.dart';
+import 'package:vinyl_groove/screen/barcode_screen.dart';
 import 'package:vinyl_groove/screen/detail_screen.dart';
 import 'package:vinyl_groove/utils/info.dart';
 import 'package:vinyl_groove/utils/utils.dart';
@@ -190,10 +191,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ),
                         ],
                       ),
-                      SvgPicture.asset(
-                        "assets/icons/barcode-scan.svg",
-                        color: Colors.white,
-                        height: 25,
+                      GestureDetector(
+                        onTap: () => toPage(context, BarcodeScreen()),
+                        child: SvgPicture.asset(
+                          "assets/icons/barcode-scan.svg",
+                          color: subColor,
+                          height: 25,
+                        ),
                       ),
                     ],
                   ),

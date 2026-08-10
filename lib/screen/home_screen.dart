@@ -650,20 +650,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Positioned(
                   top: 8,
                   right: 8,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      color: coverColor,
-                    ),
-                    child: Text(
-                      model.condition,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
+                  child: favoriteWidget(id: model.id),
                 ),
               ],
             ),

@@ -296,18 +296,24 @@ class _DetailScreenState extends State<DetailScreen> {
       backgroundColor: bgColor,
       expandedHeight: 350,
       pinned: true,
-      leading: GestureDetector(
-        onTap: () => Navigator.pop(context),
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-          width: 20,
-          height: 20,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: bgColor.withOpacity(0.8),
+      automaticallyImplyLeading: false,
+      title:  Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+              padding: EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: bgColor.withOpacity(0.8),
+              ),
+              child: Icon(Icons.arrow_back_outlined, color: Colors.white, size: 25),
+            ),
           ),
-          child: Icon(Icons.arrow_back_outlined, color: Colors.white, size: 23),
-        ),
+          favoriteWidget(id: widget.product_id,size: 25),
+        ],
       ),
       flexibleSpace: Stack(
         fit: StackFit.expand,

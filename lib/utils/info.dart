@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:vinyl_groove/model/product_model.dart';
 
 final String baseUrl = "10.0.2.2:8080";
 

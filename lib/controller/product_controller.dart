@@ -88,6 +88,7 @@ class ProductController {
       );
       final res = await http.get(url, headers: header);
 
+      print(url);
       print(res.statusCode);
       print(res.body);
 

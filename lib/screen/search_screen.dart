@@ -510,6 +510,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                 ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: favoriteWidget(id: model.id),
+                ),
               ],
             ),
             Padding(

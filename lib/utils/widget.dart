@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:vinyl_groove/controller/favorite_controller.dart';
 import 'package:vinyl_groove/utils/info.dart';
@@ -17,8 +19,26 @@ Widget favoriteWidget({
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => FavoriteController.instance.set(id),
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 200),
+        child: TweenAnimationBuilder<double>(
+          key: ValueKey(like),
+          builder: (context, value, child) {
+            final scale = 1 + sin(value * pi) * 0.3;
+            return Transform.scale(scale: scale, child: child);
+          },
+          tween: Tween(begin: 0, end: 1),
+          duration: Duration(milliseconds: 300),
+          child: Container(
+            padding: EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: bgColor.withValues(alpha: 0.8),
+            ),
+            child: Icon(
+              like ? Icons.favorite : Icons.favorite_border,
+              color: like ? Colors.red : Colors.white,
+              size: size,
+            ),
+          ),
         ),
       );
     },

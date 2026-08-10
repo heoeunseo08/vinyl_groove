@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:vinyl_groove/controller/notif_controller.dart';
 import 'package:vinyl_groove/controller/product_controller.dart';
 import 'package:vinyl_groove/model/product_model.dart';
+import 'package:vinyl_groove/screen/alarm_screen.dart';
 import 'package:vinyl_groove/screen/app_screen.dart';
 import 'package:vinyl_groove/screen/detail_screen.dart';
 import 'package:vinyl_groove/utils/info.dart';
@@ -114,11 +116,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       height: 50,
                     ),
                     GestureDetector(
-                      onTap: () => showMessage("준비 중입니다."),
-                      child: SvgPicture.asset(
-                        "assets/icons/notification.svg",
-                        color: Colors.white,
-                        height: 25,
+                      onTap: () => toPage(context, AlarmScreen()),
+                      child: ListenableBuilder(
+                        builder: (context, child) {
+                          return Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/icons/notification.svg",
+                                color: Colors.white,
+                                height: 28,
+                              ),
+                              if (notifController.unreadCount != 0)
+                                Positioned(
+                                  top: 0,
+                                  right: 0,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: 16,
+                                    height: 16,
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Text(
+                                      textAlign: TextAlign.center,
+                                      notifController.unreadCount > 9
+                                          ? '9+'
+                                          : '${notifController.unreadCount}',
+                                      style: TextStyle(fontSize: 11),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          );
+                        },
+                        listenable: notifController,
                       ),
                     ),
                   ],

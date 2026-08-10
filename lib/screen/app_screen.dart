@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vinyl_groove/controller/notif_controller.dart';
 import 'package:vinyl_groove/screen/favorite_screen.dart';
 import 'package:vinyl_groove/screen/home_screen.dart';
 import 'package:vinyl_groove/screen/my_screen.dart';
@@ -18,6 +21,7 @@ class AppScreen extends StatefulWidget {
 
 class _AppScreenState extends State<AppScreen> {
   int currentIndex = 0;
+  Timer? timer;
 
   late List<Widget> pages = [
     HomeScreen(),
@@ -39,6 +43,18 @@ class _AppScreenState extends State<AppScreen> {
   void initState() {
     super.initState();
     currentIndex = widget.index;
+
+    notifController.load();
+    timer = Timer.periodic(
+      Duration(seconds: 30),
+      (timer) => notifController.load(),
+    );
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override

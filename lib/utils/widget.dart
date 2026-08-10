@@ -3,19 +3,26 @@ import 'package:vinyl_groove/controller/favorite_controller.dart';
 import 'package:vinyl_groove/utils/info.dart';
 
 Widget loadingWidget() {
-  return Center(
-    child: CircularProgressIndicator()
-  );
+  return Center(child: CircularProgressIndicator());
 }
 
 Widget favoriteWidget({
   required int id,
   double size = 20,
-}){
-  return AnimatedBuilder(animation: FavoriteController.instance, builder: (context, child) {
-    final like = FavoriteController.instance.isFavorite(id);
-    return GestureDetector();
-  },);
+}) {
+  return AnimatedBuilder(
+    animation: FavoriteController.instance,
+    builder: (context, child) {
+      final like = FavoriteController.instance.isFavorite(id);
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => FavoriteController.instance.set(id),
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 200),
+        ),
+      );
+    },
+  );
 }
 
 Widget button({

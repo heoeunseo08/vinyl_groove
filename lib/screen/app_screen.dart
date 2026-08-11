@@ -60,10 +60,7 @@ class _AppScreenState extends State<AppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: currentIndex,
-        children: pages,
-      ),
+      body: pages[currentIndex],
       bottomNavigationBar: bottomBar(),
     );
   }

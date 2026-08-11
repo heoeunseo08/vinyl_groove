@@ -13,11 +13,15 @@ class FavoriteScreen extends StatefulWidget {
   State<FavoriteScreen> createState() => _FavoriteScreenState();
 }
 
-class _FavoriteScreenState extends State<FavoriteScreen> {
+class _FavoriteScreenState extends State<FavoriteScreen>
+    with WidgetsBindingObserver {
+  Set<int> yetRemoveList = {};
+
   @override
   void initState() {
     super.initState();
     FavoriteController.instance.addListener(load);
+    WidgetsBinding.instance.addObserver(this);
     load();
   }
 
@@ -27,8 +31,23 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state == AppLifecycleState.paused || state == AppLifecycleState.detached)
+      yetRemoveReset();
+    super.didChangeAppLifecycleState(state);
+  }
+
+  void yetRemoveReset(){
+    for(final id in yetRemoveList)
+      FavoriteController.instance.set(id);
+    yetRemoveList.clear();
+  }
+
+  @override
   void dispose() {
     FavoriteController.instance.removeListener(load);
+    WidgetsBinding.instance.removeObserver(this);
+    yetRemoveReset();
     super.dispose();
   }
 
@@ -61,121 +80,138 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   Widget card(ProductDetailModel model) {
-    return Dismissible(
-      key: ValueKey(model.id),
-      direction: DismissDirection.endToStart,
-      confirmDismiss: (direction) => confirmPopup(model),
-      onDismissed: (direction) => delete(model),
-      background: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        color: Colors.red,
-      ),
-      child: GestureDetector(
-        onTap: () => toPage(context, DetailScreen(product_id: model.id)),
-        behavior: HitTestBehavior.opaque,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
+    bool yetRemove = yetRemoveList.contains(model.id);
+
+    return Opacity(
+      opacity: yetRemove ? 0.4 : 1,
+      child: Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () => toPage(context, DetailScreen(product_id: model.id)),
+              behavior: HitTestBehavior.opaque,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.network(
-                      model.albumImage,
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        width: 80,
-                        height: 80,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 12),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       children: [
-                        Text(
-                          model.albumName,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            model.albumImage,
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                                  width: 80,
+                                  height: 80,
+                                  color: Colors.white,
+                                ),
                           ),
-                          overflow: TextOverflow.ellipsis,
                         ),
-                        Text(
-                          model.artist,
-                          style: TextStyle(
-                            color: subColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(height: 6),
-                        Row(
-                          spacing: 8,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 4,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color: Colors.black,
-                              ),
-                              child: Text(
-                                model.condition,
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                model.albumName,
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 12,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                model.artist,
+                                style: TextStyle(
+                                  color: subColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
-                            ),
-                            Text(
-                              genresCode[model.genre]!,
-                              style: TextStyle(
-                                color: subColor,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                              SizedBox(height: 6),
+                              Row(
+                                spacing: 8,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 4,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      color: Colors.black,
+                                    ),
+                                    child: Text(
+                                      model.condition,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    genresCode[model.genre]!,
+                                    style: TextStyle(
+                                      color: subColor,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
+                  Column(
+                    spacing: 6,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        "₩ ${won(model.price)}",
+                        style: TextStyle(
+                          color: mainColor,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        tradeMethodCode[model.tradeMethod]!,
+                        style: TextStyle(
+                          color: subColor.withValues(alpha: 0.4),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
-            Column(
-              spacing: 6,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  "₩ ${won(model.price)}",
-                  style: TextStyle(
-                    color: mainColor,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                  ),
-                ),
-                Text(
-                  tradeMethodCode[model.tradeMethod]!,
-                  style: TextStyle(
-                    color: subColor.withValues(alpha: 0.4),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
+          ),
+          SizedBox(width: 10),
+          GestureDetector(
+            onTap: () => setState(() {
+              if (yetRemove) {
+                yetRemoveList.remove(model.id);
+              } else {
+                yetRemoveList.add(model.id);
+              }
+            }),
+            child: Icon(
+              yetRemove ? Icons.favorite_border : Icons.favorite,
+              color: yetRemove ? subColor : Colors.red,
+              size: 30,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -210,6 +246,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     ],
   );
 
+  //모듈 C에서 유지보수 후 사용안함
   Future<bool> confirmPopup(ProductDetailModel model) async {
     final confirm = await showDialog(
       context: context,

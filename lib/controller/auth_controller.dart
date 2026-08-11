@@ -14,15 +14,15 @@ class AuthController {
     error = null;
 
     try {
-      final url = Uri.parse("http://$baseUrl/auth/login");
+      final url = Uri.parse("http://$baseUrl/auth/login/v2");
       final res = await http.post(
         url,
         headers: header,
         body: jsonEncode({
-          "email": "test@example.com",
-          "password": "Test1234!",
-          // "email": emailText,
-          // "password": passwordText,
+          // "email": "test@example.com",
+          // "password": "Test1234!",
+          "email": emailText,
+          "password": passwordText,
         }),
       );
       print(res.statusCode);
@@ -35,7 +35,6 @@ class AuthController {
         user_id = data['data']['user']['id'];
         email = data['data']['user']['email'];
         name = data['data']['user']['name'];
-        phone = data['data']['user']['phone'];
       } else {
         final errors = data['errors'] as List;
         error = errors.map((e) => e['message']).join('\n');

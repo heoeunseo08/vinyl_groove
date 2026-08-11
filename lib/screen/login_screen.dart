@@ -20,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   AuthController authController = AuthController();
   TextEditingController email_controller = TextEditingController();
   TextEditingController password_controller = TextEditingController();
+  String? email_error;
+  String? password_error;
 
   bool obscureText = false;
 
@@ -92,6 +94,25 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  String? email_confirm(String email) {
+    if (email.isEmpty) return '이메일을 입력해주세요.';
+    if (!email.contains('@')) return '이메일에 "@"를 포함해주세요.';
+    if (!email.contains('.')) return '이메일에 "."를 포함해주세요.';
+    if (email.indexOf('@') > 0 && email[email.indexOf('@') - 1] == '.')
+      return '"@" 앞에 "."을 사용할 수 없습니다.';
+
+    return null;
+  }
+
+  String? password_confirm(String password) {
+    if (password.isEmpty) return '비밀번호를 입력해주세요.';
+    if (password.length < 6) return '비밀번호는 6자 이상입니다.';
+    if (!password.contains(RegExp(r'[A-Z]'))) return '대문자를 1자 이상 포함해주세요.';
+    if (!password.contains(RegExp(r'[a-z]'))) return '소문자를 1자 이상 포함해주세요.';
+
+    return null;
+  }
+
   Widget input() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
@@ -115,6 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
           TextFormField(
             controller: email_controller,
             decoration: InputDecoration(
+              errorText: email_error,
               filled: true,
               fillColor: coverColor,
               border: border(coverColor),
@@ -142,6 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
             controller: password_controller,
             obscureText: obscureText,
             decoration: InputDecoration(
+              errorText: password_error,
               filled: true,
               fillColor: coverColor,
               border: border(coverColor),
@@ -188,6 +211,15 @@ class _LoginScreenState extends State<LoginScreen> {
             context: context,
             text: "로그인",
             onTap: () async {
+              setState(() {
+                email_error = email_confirm(email_controller.text.trim());
+                password_error = password_confirm(
+                  password_controller.text.trim(),
+                );
+              });
+
+              if (email_error != null || password_error != null) return;
+
               await authController.login(
                 emailText: email_controller.text.trim(),
                 passwordText: password_controller.text.trim(),

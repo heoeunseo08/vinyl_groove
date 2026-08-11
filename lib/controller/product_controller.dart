@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:vinyl_groove/model/product_model.dart';
 import 'package:vinyl_groove/utils/info.dart';
+import 'package:vinyl_groove/utils/utils.dart';
 
 class ProductController {
   bool isListLoading = false;
   bool isDetailLoading = false;
+  bool isMyLoading = false;
   List<ProductModel> productList = [];
+  List<MyProductModel> myProductList = [];
   ProductDetailModel? detailModel;
   bool hasNext = true;
   int page = 1;
@@ -101,5 +104,122 @@ class ProductController {
     }
 
     isDetailLoading = false;
+  }
+
+  Future<bool> removeProduct(int product_id) async {
+    try {
+      final url = Uri.parse(
+        "http://$baseUrl/products/$product_id?userId=$user_id",
+      );
+      final res = await http.delete(url, headers: header);
+
+      print(url);
+      print(res.statusCode);
+      print(res.body);
+
+      if (res.statusCode == 200) {
+        showMessage('상품이 삭제되었습니다.');
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print("$e");
+      return false;
+    }
+  }
+
+  Future<String?> uploadImage(String image) async {
+    try {
+      final url = Uri.parse('http://$baseUrl/upload/image?userId=$user_id');
+      final res = await http.post(
+        url,
+        headers: header,
+        body: jsonEncode({"image": image, "type": "ALBUM"}),
+      );
+      print(url);
+      print(res.statusCode);
+      print(res.body);
+
+      if (res.statusCode == 201) {
+        final data = jsonDecode(res.body);
+        return data['data']['imageUrl'];
+      }
+    } catch (e) {
+      print('$e');
+      return null;
+    }
+  }
+
+  Future<bool> addProduct({
+    required String albumName,
+    required String artist,
+    required String genre,
+    required String condition,
+    required int price,
+    required String tradeMethod,
+    required String albumImage,
+    String? barcode,
+    String? description,
+  }) async {
+    try {
+      final url = Uri.parse('http://$baseUrl/products?userId=$user_id');
+      final res = await http.post(
+        url,
+        headers: header,
+        body: jsonEncode({
+          "albumName": albumName,
+          "artist": artist,
+          "genre": genre,
+          "condition": condition,
+          "price": price,
+          "tradeMethod": tradeMethod,
+          "barcode": barcode,
+          "description": description,
+          "albumImage": albumImage,
+        }),
+      );
+      print(url);
+      print(res.statusCode);
+      print(res.body);
+
+      final data = jsonDecode(res.body);
+      if (res.statusCode == 201) {
+        showMessage('상품이 등록되었습니다.');
+        return true;
+      } else {
+        final errors = data['errors'] as List;
+        final error = errors.map((e) => e['message']).join('\n');
+        showMessage(error);
+
+        return false;
+      }
+    } catch (e) {
+      print('$e');
+      return false;
+    }
+  }
+
+  Future<void> loadMyList() async {
+    isMyLoading = true;
+    try {
+      myProductList.clear();
+      final url = Uri.parse('http://$baseUrl/products/me?userId=$user_id');
+      final res = await http.get(url, headers: header);
+
+      print(url);
+      print(res.statusCode);
+      print(res.body);
+
+      final data = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        final list = (data['data'] as List)
+            .map((e) => MyProductModel.fromJson(e))
+            .toList();
+        myProductList.addAll(list);
+      }
+    } catch (e) {
+      print('$e');
+    }
+    isMyLoading = false;
   }
 }

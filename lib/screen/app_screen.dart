@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vinyl_groove/controller/notif_controller.dart';
+import 'package:vinyl_groove/screen/add_product_screen.dart';
 import 'package:vinyl_groove/screen/favorite_screen.dart';
 import 'package:vinyl_groove/screen/home_screen.dart';
 import 'package:vinyl_groove/screen/my_screen.dart';
 import 'package:vinyl_groove/screen/search_screen.dart';
 import 'package:vinyl_groove/utils/info.dart';
+import 'package:vinyl_groove/utils/utils.dart';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({super.key, this.index = 0, this.genre});
@@ -71,6 +73,7 @@ class _AppScreenState extends State<AppScreen> {
       alignment: Alignment.bottomCenter,
       decoration: BoxDecoration(color: coverColor),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
@@ -78,6 +81,20 @@ class _AppScreenState extends State<AppScreen> {
           ),
           Expanded(
             child: item(index: 1, label: labels[1], icon: icons[1]),
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: () => toPage(context, AddProductScreen()),
+              child: Container(
+                width: 45,
+                height: 45,
+                decoration: BoxDecoration(
+                  color: mainColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(CupertinoIcons.add, color: Colors.black),
+              ),
+            ),
           ),
           Expanded(
             child: item(index: 2, label: labels[2], icon: icons[2]),

@@ -70,35 +70,36 @@ class ProductDetailModel {
     required this.createdAt,
   });
 
-  factory ProductDetailModel.fromJson(Map<String, dynamic> json) => ProductDetailModel(
-    id: json['id'],
-    albumName: json['albumName'],
-    artist: json['artist'],
-    genre: json['genre'],
-    condition: json['condition'],
-    conditionDescription: json['conditionDescription'],
-    price: json['price'],
-    tradeMethod: json['tradeMethod'],
-    barcode: json['barcode'],
-    description: json['description'],
-    albumImage: json['albumImage'],
-    seller: seller_model.fromJson(json['seller']),
-    likeCount: json['likeCount'],
-    createdAt: json['createdAt'],
-  );
+  factory ProductDetailModel.fromJson(Map<String, dynamic> json) =>
+      ProductDetailModel(
+        id: json['id'],
+        albumName: json['albumName'],
+        artist: json['artist'],
+        genre: json['genre'],
+        condition: json['condition'],
+        conditionDescription: json['conditionDescription'],
+        price: json['price'],
+        tradeMethod: json['tradeMethod'],
+        barcode: json['barcode'],
+        description: json['description'],
+        albumImage: json['albumImage'],
+        seller: seller_model.fromJson(json['seller']),
+        likeCount: json['likeCount'],
+        createdAt: json['createdAt'],
+      );
 }
 
 class seller_model {
   final int id;
   final String name;
   final String email;
-  final String profileImage;
+  String? profileImage;
 
   seller_model({
     required this.id,
     required this.name,
     required this.email,
-    required this.profileImage,
+    this.profileImage,
   });
 
   factory seller_model.fromJson(Map<String, dynamic> json) => seller_model(
@@ -106,5 +107,41 @@ class seller_model {
     name: json['name'],
     email: json['email'],
     profileImage: json['profileImage'],
+  );
+}
+
+class MyProductModel {
+  final int id;
+  final String albumName;
+  final String artist;
+  final String genre;
+  final String condition;
+  final int price;
+  final String tradeMethod;
+  final String albumImage;
+  final String createdAt;
+
+  MyProductModel({
+    required this.id,
+    required this.albumName,
+    required this.artist,
+    required this.genre,
+    required this.condition,
+    required this.price,
+    required this.tradeMethod,
+    required this.albumImage,
+    required this.createdAt,
+  });
+
+  factory MyProductModel.fromJson(Map<String, dynamic> json) => MyProductModel(
+    id: json['id'],
+    albumName: json['albumName'],
+    artist: json['artist'],
+    genre: json['genre'],
+    condition: json['condition'],
+    price: json['price'],
+    tradeMethod: json['tradeMethod'],
+    albumImage: json['albumImage'],
+    createdAt: json['createdAt'],
   );
 }

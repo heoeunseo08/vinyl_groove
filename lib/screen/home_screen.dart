@@ -192,7 +192,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ],
                       ),
                       GestureDetector(
-                        onTap: () => toPage(context, BarcodeScreen()),
+                        onTap: () async {
+                          final barcode = await toPage<String>(
+                            context,
+                            BarcodeScreen(),
+                          );
+                          if (barcode == null) return;
+
+                          final barcode_controller = ProductController();
+                          await barcode_controller.loadList(barcode: barcode);
+                          if (barcode_controller.productList.isNotEmpty) {
+                            toPage(
+                              context,
+                              DetailScreen(
+                                product_id:
+                                    barcode_controller.productList.first.id,
+                              ),
+                            );
+                          } else {
+                            showMessage("바코드 $barcode에 해당하는 상품을 찾을 수 없습니다");
+                          }
+                        },
                         child: SvgPicture.asset(
                           "assets/icons/barcode-scan.svg",
                           color: subColor,

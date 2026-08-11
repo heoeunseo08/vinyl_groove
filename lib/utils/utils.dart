@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vinyl_groove/controller/method_controller.dart';
 
-Future<void> toPage(BuildContext context, Widget page) async {
-  Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+Future<T?> toPage<T>(BuildContext context, Widget page) async {
+  return Navigator.push<T>(context, MaterialPageRoute(builder: (context) => page));
 }
 
 Future<void> showMessage(String text) async {

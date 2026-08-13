@@ -149,80 +149,80 @@ void main() {
         },
       );
 
-      // await step(
-      //   tester: tester,
-      //   number: 14,
-      //   text: '"내 등록 상품" 메뉴 클릭 내 등록 상품 화면으로 이동',
-      //   action: () async {
-      //     await tester.tap(find.text('내 등록 상품'));
-      //   },
-      // );
-      //
-      // await step(
-      //   tester: tester,
-      //   number: 15,
-      //   text: '등록된 첫 번째 상품 아이템 리스트에 표시 확인',
-      //   action: () async {},
-      // );
-      //
-      // await step(
-      //   tester: tester,
-      //   number: 16,
-      //   text: '첫 번째 상품 아이템 삭제 아이콘 버튼 클릭',
-      //   action: () async {
-      //     await tester.tap(find.byKey(ValueKey('remove')));
-      //   },
-      // );
-      //
-      // await step(
-      //   tester: tester,
-      //   number: 17,
-      //   text: '다이얼로그의 "삭제" 버튼 클릭',
-      //   action: () async {
-      //     await tester.tap(find.text('삭제'));
-      //   },
-      // );
-      //
-      // await step(
-      //   tester: tester,
-      //   number: 18,
-      //   text: '등록 상품 목록 빈 상태 확인',
-      //   action: () async {},
-      // );
-      //
-      // await step(
-      //   tester: tester,
-      //   number: 19,
-      //   text: '뒤로가기 버튼 클릭',
-      //   action: () async {
-      //     await tester.tap(find.byKey(ValueKey('back')));
-      //   },
-      // );
-      //
-      // await step(
-      //   tester: tester,
-      //   number: 20,
-      //   text: '"로그아웃" 버튼 클릭',
-      //   action: () async {
-      //     await tester.tap(find.text('로그아웃'));
-      //   },
-      // );
-      //
-      // await step(
-      //   tester: tester,
-      //   number: 21,
-      //   text: '로그아웃 확인 다이얼로그의 "로그아웃" 버튼 클릭',
-      //   action: () async {
-      //     await tester.tap(find.text('로그아웃').at(2));
-      //   },
-      // );
-      //
-      // await step(
-      //   tester: tester,
-      //   number: 22,
-      //   text: '로그인 화면 정상 표시 확인',
-      //   action: () async {},
-      // );
+      await step(
+        tester: tester,
+        number: 14,
+        text: '"내 등록 상품" 메뉴 클릭 내 등록 상품 화면으로 이동',
+        action: () async {
+          await tester.tap(find.text('내 등록 상품'));
+        },
+      );
+
+      await step(
+        tester: tester,
+        number: 15,
+        text: '등록된 첫 번째 상품 아이템 리스트에 표시 확인',
+        action: () async {},
+      );
+
+      await step(
+        tester: tester,
+        number: 16,
+        text: '첫 번째 상품 아이템 삭제 아이콘 버튼 클릭',
+        action: () async {
+          await tester.tap(find.byKey(ValueKey('remove')));
+        },
+      );
+
+      await step(
+        tester: tester,
+        number: 17,
+        text: '다이얼로그의 "삭제" 버튼 클릭',
+        action: () async {
+          await tester.tap(find.text('삭제'));
+        },
+      );
+
+      await step(
+        tester: tester,
+        number: 18,
+        text: '등록 상품 목록 빈 상태 확인',
+        action: () async {},
+      );
+
+      await step(
+        tester: tester,
+        number: 19,
+        text: '뒤로가기 버튼 클릭',
+        action: () async {
+          await tester.tap(find.byKey(ValueKey('back')));
+        },
+      );
+
+      await step(
+        tester: tester,
+        number: 20,
+        text: '"로그아웃" 버튼 클릭',
+        action: () async {
+          await tester.tap(find.text('로그아웃'));
+        },
+      );
+
+      await step(
+        tester: tester,
+        number: 21,
+        text: '로그아웃 확인 다이얼로그의 "로그아웃" 버튼 클릭',
+        action: () async {
+          await tester.tap(find.text('로그아웃').at(2));
+        },
+      );
+
+      await step(
+        tester: tester,
+        number: 22,
+        text: '로그인 화면 정상 표시 확인',
+        action: () async {},
+      );
     });
   });
 }

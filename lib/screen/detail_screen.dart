@@ -301,6 +301,7 @@ class _DetailScreenState extends State<DetailScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
+            key: ValueKey('back'),
             onTap: () => Navigator.pop(context),
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 8, vertical: 12),

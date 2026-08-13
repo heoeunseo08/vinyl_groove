@@ -116,162 +116,164 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget input() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '로그인',
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 24),
-          ),
-          SizedBox(height: 12),
-          Text(
-            '계정으로 로그인하여 다양한 서비스를 이용하세요.',
-            style: TextStyle(
-              color: subColor,
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '로그인',
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 24),
             ),
-          ),
-          SizedBox(height: 25),
-          TextFormField(
-            controller: email_controller,
-            decoration: InputDecoration(
-              errorText: email_error,
-              filled: true,
-              fillColor: coverColor,
-              border: border(coverColor),
-              disabledBorder: border(coverColor),
-              focusedBorder: border(coverColor),
-              enabledBorder: border(coverColor),
-              errorBorder: border(Colors.red),
-              focusedErrorBorder: border(Colors.red),
-              prefixIcon: Icon(
-                Icons.email_outlined,
+            SizedBox(height: 12),
+            Text(
+              '계정으로 로그인하여 다양한 서비스를 이용하세요.',
+              style: TextStyle(
                 color: subColor,
-              ),
-              hint: Text(
-                "이메일을 입력해주세요.",
-                style: TextStyle(
-                  color: subColor,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                ),
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
               ),
             ),
-          ),
-          SizedBox(height: 16),
-          TextFormField(
-            controller: password_controller,
-            obscureText: obscureText,
-            decoration: InputDecoration(
-              errorText: password_error,
-              filled: true,
-              fillColor: coverColor,
-              border: border(coverColor),
-              disabledBorder: border(coverColor),
-              focusedBorder: border(coverColor),
-              enabledBorder: border(coverColor),
-              errorBorder: border(Colors.red),
-              focusedErrorBorder: border(Colors.red),
-              prefixIcon: Icon(CupertinoIcons.lock, color: subColor),
-              suffixIcon: GestureDetector(
-                onTap: () => setState(() => obscureText = !obscureText),
-                child: Icon(
-                  obscureText ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
+            SizedBox(height: 25),
+            TextFormField(
+              controller: email_controller,
+              decoration: InputDecoration(
+                errorText: email_error,
+                filled: true,
+                fillColor: coverColor,
+                border: border(coverColor),
+                disabledBorder: border(coverColor),
+                focusedBorder: border(coverColor),
+                enabledBorder: border(coverColor),
+                errorBorder: border(Colors.red),
+                focusedErrorBorder: border(Colors.red),
+                prefixIcon: Icon(
+                  Icons.email_outlined,
                   color: subColor,
                 ),
-              ),
-              hint: Text(
-                "비밀번호를 입력해주세요.",
-                style: TextStyle(
-                  color: subColor,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 25),
-          Align(
-            alignment: Alignment.centerRight,
-            child: GestureDetector(
-              onTap: () => showMessage("아직 준비중입니다."),
-              child: Text(
-                '비밀번호를 잊으셨나요?',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 40),
-          button(
-            context: context,
-            text: "로그인",
-            onTap: () async {
-              setState(() {
-                email_error = email_confirm(email_controller.text.trim());
-                password_error = password_confirm(
-                  password_controller.text.trim(),
-                );
-              });
-
-              if (email_error != null || password_error != null) return;
-
-              await authController.login(
-                emailText: email_controller.text.trim(),
-                passwordText: password_controller.text.trim(),
-              );
-
-              if (isLogin) toPage(context, AppScreen());
-            },
-          ),
-          SizedBox(height: 20),
-          Row(
-            spacing: 12,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(child: Divider(color: subColor, height: 1)),
-              Text(
-                "또는",
-                style: TextStyle(
-                  color: subColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                ),
-              ),
-              Expanded(child: Divider(color: subColor, height: 1)),
-            ],
-          ),
-          SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "계정이 없으신가요?",
-                style: TextStyle(
-                  color: subColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                ),
-              ),
-              SizedBox(width: 12),
-              GestureDetector(
-                onTap: () => toPage(context, SignUpScreen()),
-                child: Text(
-                  "회원가입",
+                hint: Text(
+                  "이메일을 입력해주세요.",
                   style: TextStyle(
-                    color: mainColor,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 14.5,
+                    color: subColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
                   ),
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+            SizedBox(height: 16),
+            TextFormField(
+              controller: password_controller,
+              obscureText: obscureText,
+              decoration: InputDecoration(
+                errorText: password_error,
+                filled: true,
+                fillColor: coverColor,
+                border: border(coverColor),
+                disabledBorder: border(coverColor),
+                focusedBorder: border(coverColor),
+                enabledBorder: border(coverColor),
+                errorBorder: border(Colors.red),
+                focusedErrorBorder: border(Colors.red),
+                prefixIcon: Icon(CupertinoIcons.lock, color: subColor),
+                suffixIcon: GestureDetector(
+                  onTap: () => setState(() => obscureText = !obscureText),
+                  child: Icon(
+                    obscureText ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
+                    color: subColor,
+                  ),
+                ),
+                hint: Text(
+                  "비밀번호를 입력해주세요.",
+                  style: TextStyle(
+                    color: subColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 25),
+            Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                onTap: () => showMessage("아직 준비중입니다."),
+                child: Text(
+                  '비밀번호를 잊으셨나요?',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 40),
+            button(
+              context: context,
+              text: "로그인",
+              onTap: () async {
+                setState(() {
+                  email_error = email_confirm(email_controller.text.trim());
+                  password_error = password_confirm(
+                    password_controller.text.trim(),
+                  );
+                });
+        
+                if (email_error != null || password_error != null) return;
+        
+                await authController.login(
+                  emailText: email_controller.text.trim(),
+                  passwordText: password_controller.text.trim(),
+                );
+        
+                if (isLogin) toPage(context, AppScreen());
+              },
+            ),
+            SizedBox(height: 20),
+            Row(
+              spacing: 12,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: Divider(color: subColor, height: 1)),
+                Text(
+                  "또는",
+                  style: TextStyle(
+                    color: subColor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                ),
+                Expanded(child: Divider(color: subColor, height: 1)),
+              ],
+            ),
+            SizedBox(height: 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "계정이 없으신가요?",
+                  style: TextStyle(
+                    color: subColor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                ),
+                SizedBox(width: 12),
+                GestureDetector(
+                  onTap: () => toPage(context, SignUpScreen()),
+                  child: Text(
+                    "회원가입",
+                    style: TextStyle(
+                      color: mainColor,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 14.5,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

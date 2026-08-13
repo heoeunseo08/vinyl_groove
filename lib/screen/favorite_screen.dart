@@ -198,6 +198,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
           ),
           SizedBox(width: 10),
           GestureDetector(
+            key: ValueKey('heart'),
             onTap: () => setState(() {
               if (yetRemove) {
                 yetRemoveList.remove(model.id);

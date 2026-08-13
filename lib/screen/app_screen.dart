@@ -84,6 +84,7 @@ class _AppScreenState extends State<AppScreen> {
           ),
           Expanded(
             child: GestureDetector(
+              key: ValueKey('add'),
               onTap: () => toPage(context, AddProductScreen()),
               child: Container(
                 width: 45,

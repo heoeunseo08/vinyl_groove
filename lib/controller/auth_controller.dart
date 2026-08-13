@@ -67,8 +67,8 @@ class AuthController {
         }),
       );
 
-      print(res.statusCode);
-      print(res.body);
+      // print(res.statusCode);
+      // print(res.body);
 
       final data = jsonDecode(res.body);
       if (res.statusCode == 200) {

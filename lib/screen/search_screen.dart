@@ -29,7 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
   String? selectTradeMethod;
   RangeValues price = const RangeValues(1000, 1000000);
   String selectSort = 'recent';
-  bool filterUpDown = false;
+  bool filterUpDown = true;
 
   @override
   void initState() {
@@ -507,7 +507,7 @@ class _SearchScreenState extends State<SearchScreen> {
             productController.productList.length,
             (index) {
               final model = productController.productList[index];
-              return card(model);
+              return card(model,index);
             },
           ),
         ),
@@ -515,10 +515,11 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget card(ProductModel model) {
+  Widget card(ProductModel model, int index) {
     final won = NumberFormat('#,###').format(model.price);
 
     return GestureDetector(
+      key: ValueKey('item$index'),
       onTap: () => toPage(context, DetailScreen(product_id: model.id)),
       child: Container(
         width: 120,

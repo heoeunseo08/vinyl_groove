@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vinyl_groove/controller/product_controller.dart';
 import 'package:vinyl_groove/utils/info.dart';
@@ -32,6 +34,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String? uploadUrl;
   bool isUpload = false;
 
+  bool testImage = false;
+
   Map<String, String> conditionText = {
     'SS': '미개봉 새상품',
     'M': 'Mint - 완벽한 상태',
@@ -43,6 +47,25 @@ class _AddProductScreenState extends State<AddProductScreen> {
   };
 
   Future<void> pickImage(ImageSource source) async {
+    if (testMode) {
+      setState(() {
+        imagePath = null;
+        testImage = true;
+        isUpload = true;
+      });
+
+      final byteData = await rootBundle.load('assets/images/vinyl_sample.png');
+      final image =
+          "data:image/png;base64,${base64Encode(byteData.buffer.asUint8List())}";
+      final url = await productController.uploadImage(image);
+
+      setState(() {
+        uploadUrl = url;
+        isUpload = false;
+      });
+      return;
+    }
+
     final picker = ImagePicker();
     final pick = await picker.pickImage(source: source);
     if (pick == null) return;
@@ -61,6 +84,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
       uploadUrl = url;
       isUpload = false;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    select_genre = 'ROCK';
+    select_condition = 'SS';
+    select_tradeMethod = 'DIRECT';
   }
 
   @override
@@ -184,6 +215,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   Widget selectImage() {
     return GestureDetector(
+      key: ValueKey('imagepick'),
       onTap: () => showImagePick(),
       child: Container(
         height: 200,
@@ -192,10 +224,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
           color: coverColor,
           borderRadius: BorderRadius.circular(12),
           image: imagePath != null
-              ? DecorationImage(image: FileImage(imagePath!), fit: BoxFit.cover)
+              ? DecorationImage(
+                  image: FileImage(imagePath!),
+                  fit: BoxFit.cover,
+                )
+              : testImage
+              ? DecorationImage(
+                  image: AssetImage("assets/images/vinyl_sample.png"),
+                  fit: BoxFit.cover,
+                )
               : null,
         ),
         child: imagePath != null
+            ? null
+            : testImage
             ? null
             : Column(
                 spacing: 6,
@@ -356,7 +398,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           );
 
           if (res) Navigator.pop(context, true);
-        }else{
+        } else {
           showMessage(error);
           return;
         }

@@ -17,6 +17,7 @@ Widget favoriteWidget({
     builder: (context, child) {
       final like = FavoriteController.instance.isFavorite(id);
       return GestureDetector(
+        key: ValueKey('favorite'),
         behavior: HitTestBehavior.opaque,
         onTap: () => FavoriteController.instance.set(id),
         child: TweenAnimationBuilder<double>(

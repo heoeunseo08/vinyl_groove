@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-final String baseUrl = "10.0.2.2:8080";
+final String baseUrl = "10.53.68.44:8000";
 
 String token = '';
 
@@ -32,6 +32,8 @@ OutlineInputBorder border(Color color) => OutlineInputBorder(
   borderRadius: BorderRadius.circular(8),
   borderSide: BorderSide(color: color, width: 1.5),
 );
+
+bool testMode = true;
 
 const Map<String, String> genresCode = {
   "ROCK": "Rock",
@@ -73,5 +75,3 @@ const Map<String, String> tradeMethodCode = {
   'DELIVERY': '택배',
   'BOTH': '둘 다',
 };
-
-class keys {}

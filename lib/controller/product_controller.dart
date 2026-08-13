@@ -55,9 +55,9 @@ class ProductController {
 
       final res = await http.get(url, headers: header);
 
-      print(res.statusCode);
-      print(url);
-      print(res.body);
+      // print(res.statusCode);
+      // print(url);
+      // print(res.body);
 
       final data = jsonDecode(res.body);
       if (res.statusCode == 200) {
@@ -91,9 +91,9 @@ class ProductController {
       );
       final res = await http.get(url, headers: header);
 
-      print(url);
-      print(res.statusCode);
-      print(res.body);
+      // print(url);
+      // print(res.statusCode);
+      // print(res.body);
 
       final data = jsonDecode(res.body);
       if (res.statusCode == 200) {
@@ -113,9 +113,9 @@ class ProductController {
       );
       final res = await http.delete(url, headers: header);
 
-      print(url);
-      print(res.statusCode);
-      print(res.body);
+      // print(url);
+      // print(res.statusCode);
+      // print(res.body);
 
       if (res.statusCode == 200) {
         showMessage('상품이 삭제되었습니다.');
@@ -136,9 +136,9 @@ class ProductController {
         headers: header,
         body: jsonEncode({"image": image, "type": "ALBUM"}),
       );
-      print(url);
-      print(res.statusCode);
-      print(res.body);
+      // print(url);
+      // print(res.statusCode);
+      // print(res.body);
 
       if (res.statusCode == 201) {
         final data = jsonDecode(res.body);
@@ -178,9 +178,9 @@ class ProductController {
           "albumImage": albumImage,
         }),
       );
-      print(url);
-      print(res.statusCode);
-      print(res.body);
+      // print(url);
+      // print(res.statusCode);
+      // print(res.body);
 
       final data = jsonDecode(res.body);
       if (res.statusCode == 201) {
@@ -206,9 +206,9 @@ class ProductController {
       final url = Uri.parse('http://$baseUrl/products/me?userId=$user_id');
       final res = await http.get(url, headers: header);
 
-      print(url);
-      print(res.statusCode);
-      print(res.body);
+      // print(url);
+      // print(res.statusCode);
+      // print(res.body);
 
       final data = jsonDecode(res.body);
       if (res.statusCode == 200) {

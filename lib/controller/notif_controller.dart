@@ -19,9 +19,9 @@ class NotifController extends ChangeNotifier {
       final url = Uri.parse("http://$baseUrl/notifications?userId=$user_id");
       final res = await http.get(url, headers: header);
 
-      print(url);
-      print(res.statusCode);
-      print(res.body);
+      // print(url);
+      // print(res.statusCode);
+      // print(res.body);
 
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
@@ -47,9 +47,9 @@ class NotifController extends ChangeNotifier {
       );
       final res = await http.put(url, headers: header);
 
-      print(url);
-      print(res.statusCode);
-      print(res.body);
+      // print(url);
+      // print(res.statusCode);
+      // print(res.body);
 
       if (res.statusCode == 200) {
         final data = model_list.firstWhere((e) => e.id == id);

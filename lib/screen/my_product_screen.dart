@@ -156,6 +156,7 @@ class _MyProductScreenState extends State<MyProductScreen> {
                   child: Icon(Icons.edit_outlined, color: subColor, size: 25),
                 ),
                 GestureDetector(
+                  key: ValueKey('remove'),
                   onTap: () {
                     showDialog(
                       context: context,
@@ -210,12 +211,22 @@ class _MyProductScreenState extends State<MyProductScreen> {
   PreferredSizeWidget? appbar() => AppBar(
     backgroundColor: bgColor,
     surfaceTintColor: bgColor,
+    automaticallyImplyLeading: false,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          "내 등록 상품",
-          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+        Row(
+          children: [
+            GestureDetector(
+              key: ValueKey('back'),
+              onTap: () => Navigator.pop(context),
+                child: Icon(Icons.arrow_back,color: Colors.white,size: 25)),
+            SizedBox(width: 25),
+            Text(
+              "내 등록 상품",
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+            ),
+          ],
         ),
         GestureDetector(
           onTap: () async{

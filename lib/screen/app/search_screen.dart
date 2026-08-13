@@ -68,7 +68,8 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: NotificationListener<ScrollNotification>(
             onNotification: (notification) {
-              if(notification.metrics.pixels >= notification.metrics.maxScrollExtent - 300){
+              if (notification.metrics.pixels >=
+                  notification.metrics.maxScrollExtent - 300) {
                 loadMore();
               }
               return false;
@@ -187,8 +188,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       toPage(
                         context,
                         DetailScreen(
-                          product_id:
-                          barcode_controller.productList.first.id,
+                          product_id: barcode_controller.productList.first.id,
                         ),
                       );
                     } else {
@@ -323,61 +323,27 @@ class _SearchScreenState extends State<SearchScreen> {
         Expanded(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Row(
-              spacing: 8,
-              children: [
-                chip(
-                  text: "전체",
-                  select: selectItem.isEmpty,
-                  onTap: () async {
-                    setState(() => selectItem.clear());
-                    await load();
-                  },
-                ),
-                ...codes.entries.map(
-                  (e) => chip(
-                    text: e.value,
-                    select: selectItem.contains(e.key),
-                    onTap: () async {
-                      setState(
-                        () => selectItem.contains(e.key)
-                            ? selectItem.remove(e.key)
-                            : selectItem.add(e.key),
-                      );
-                      await load();
-                    },
-                  ),
-                ),
-              ],
+            child: chipWrap(
+              codes: codes,
+              select: (key) => selectItem.contains(key),
+              onTap: (key) async {
+                setState(
+                  () => selectItem.contains(key)
+                      ? selectItem.remove(key)
+                      : selectItem.add(key),
+                );
+                await load();
+              },
+              showAll: true,
+              allSelect: () => selectItem.isEmpty,
+              onAllTap: () async {
+                setState(() => selectItem.clear());
+                await load();
+              },
             ),
           ),
         ),
       ],
-    );
-  }
-
-  Widget chip({
-    required String text,
-    required bool select,
-    required GestureTapCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-        decoration: BoxDecoration(
-          color: select ? mainColor : coverColor,
-          borderRadius: BorderRadius.circular(99),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: select ? Colors.black : Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: 12,
-          ),
-        ),
-      ),
     );
   }
 
@@ -507,7 +473,7 @@ class _SearchScreenState extends State<SearchScreen> {
             productController.productList.length,
             (index) {
               final model = productController.productList[index];
-              return card(model,index);
+              return card(model, index);
             },
           ),
         ),

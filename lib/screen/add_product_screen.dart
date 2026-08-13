@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -325,20 +324,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           '$text *',
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
         ),
-        Wrap(
-          crossAxisAlignment: WrapCrossAlignment.start,
-          spacing: 8,
-          runSpacing: 8,
-          children: codes.entries
-              .map(
-                (e) => chip(
-                  text: e.value == '기타' ? 'Etc' : e.value,
-                  select: selectText == e.key,
-                  onTap: () => onTap(e.key),
-                ),
-              )
-              .toList(),
-        ),
+        chipWrap(codes: codes, select: (key) => selectText == key, onTap: (key) => onTap(key)),
         if (isCondition && select_condition != null)
           Text(
             conditionText[select_condition]!,
@@ -349,31 +335,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
             ),
           ),
       ],
-    );
-  }
-
-  Widget chip({
-    required String text,
-    required bool select,
-    required GestureTapCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: select ? mainColor : coverColor,
-          borderRadius: BorderRadius.circular(99),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: select ? Colors.black : Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-          ),
-        ),
-      ),
     );
   }
 

@@ -7,7 +7,7 @@ import 'package:vinyl_groove/controller/notif_controller.dart';
 import 'package:vinyl_groove/controller/product_controller.dart';
 import 'package:vinyl_groove/model/product_model.dart';
 import 'package:vinyl_groove/screen/alarm_screen.dart';
-import 'package:vinyl_groove/screen/app_screen.dart';
+import 'package:vinyl_groove/screen/app/app_screen.dart';
 import 'package:vinyl_groove/screen/barcode_screen.dart';
 import 'package:vinyl_groove/screen/detail_screen.dart';
 import 'package:vinyl_groove/utils/info.dart';

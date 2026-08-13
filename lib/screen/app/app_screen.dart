@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vinyl_groove/controller/notif_controller.dart';
 import 'package:vinyl_groove/screen/add_product_screen.dart';
-import 'package:vinyl_groove/screen/favorite_screen.dart';
-import 'package:vinyl_groove/screen/home_screen.dart';
-import 'package:vinyl_groove/screen/my_screen.dart';
-import 'package:vinyl_groove/screen/search_screen.dart';
+import 'package:vinyl_groove/screen/app/favorite_screen.dart';
+import 'package:vinyl_groove/screen/app/home_screen.dart';
+import 'package:vinyl_groove/screen/app/my_screen.dart';
+import 'package:vinyl_groove/screen/app/search_screen.dart';
 import 'package:vinyl_groove/utils/info.dart';
 import 'package:vinyl_groove/utils/utils.dart';
 

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vinyl_groove/controller/auth_controller.dart';
-import 'package:vinyl_groove/screen/app_screen.dart';
+import 'package:vinyl_groove/screen/app/app_screen.dart';
 import 'package:vinyl_groove/screen/sign_up_screen.dart';
 import 'package:vinyl_groove/utils/info.dart';
 import 'package:vinyl_groove/utils/utils.dart';

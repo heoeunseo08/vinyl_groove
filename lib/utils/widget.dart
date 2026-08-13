@@ -70,3 +70,58 @@ Widget button({
     ),
   ),
 );
+
+Widget chip({
+  required String text,
+  required bool select,
+  required GestureTapCallback onTap,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      decoration: BoxDecoration(
+        color: select ? mainColor : coverColor,
+        borderRadius: BorderRadius.circular(99),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: select ? Colors.black : Colors.white,
+          fontWeight: FontWeight.w600,
+          fontSize: 12,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget chipWrap({
+  required Map<String, String> codes,
+  required bool Function(String key) select,
+  required void Function(String key) onTap,
+  bool showAll = false,
+  bool Function()? allSelect,
+  GestureTapCallback? onAllTap,
+}) {
+  return Wrap(
+    crossAxisAlignment: WrapCrossAlignment.start,
+    spacing: 8,
+    runSpacing: 8,
+    children: [
+      if (showAll)
+        chip(
+          text: "전체",
+          select: allSelect!(),
+          onTap: onAllTap!,
+        ),
+      ...codes.entries.map(
+        (e) => chip(
+          text: e.value,
+          select: select(e.key),
+          onTap: () => onTap(e.key),
+        ),
+      ),
+    ],
+  );
+}

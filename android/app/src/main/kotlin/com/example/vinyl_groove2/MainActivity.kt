@@ -16,13 +16,11 @@ class MainActivity : FlutterActivity() {
             when (call.method) {
                 "show_message" -> {
                     val text = call.argument<String>("text") ?: ""
-
                     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-
-                    result.success(null);
+                    result.success(null)
                 }
 
-                else -> result.notImplemented();
+                else -> result.notImplemented()
             }
         }
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 String baseUrl = '10.53.68.44:8000';
 
@@ -24,11 +25,14 @@ Color coverColor = Color(0xff2A2A2A);
 
 MethodChannel channel = MethodChannel('channel');
 
-OutlineInputBorder border(Color color) =>
-    OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8),
-      borderSide: BorderSide(color: color),
-    );
+OutlineInputBorder border(Color color) => OutlineInputBorder(
+  borderRadius: BorderRadius.circular(8),
+  borderSide: BorderSide(color: color),
+);
+
+String won(dynamic value) {
+  return NumberFormat('#,###').format(value);
+}
 
 Map<String, String> genreCodes = {
   'ROCK': 'Rock',
@@ -56,17 +60,17 @@ Map<String, String> tradeMethodCodes = {
 };
 
 Map<String, String> sortCodes({bool home = false}) {
-  if(home) {
+  if (home) {
     return {
-      'recent': "인기 매물",
-      'popular': "최신 등록",
+      'popular': "인기 매물",
+      'recent': "최신 등록",
       'price_asc': "가격 인하",
     };
   }
 
   return {
-      'popular': "최신 등록순",
-      'recent': "인기 매물순",
-      'price_asc': "최저 가격순",
-    };
+    'recent': "최신 등록순",
+    'popular': "인기 매물순",
+    'price_asc': "최저 가격순",
+  };
 }

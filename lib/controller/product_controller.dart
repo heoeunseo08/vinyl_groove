@@ -21,8 +21,8 @@ class ProductController {
     String? sort,
     int? limit,
     String? keyword,
-    List<String>? genres,
-    List<String>? conditions,
+    String? genres,
+    String? conditions,
     int? minPrice,
     int? maxPrice,
     String? tradeMethod,
@@ -42,17 +42,21 @@ class ProductController {
           if (sort != null) "sort": sort,
           if (limit != null) "limit": "$limit",
           if (keyword != null) "keyword": keyword,
-          if (genres != null) "genres": "$genres",
-          if (conditions != null) "conditions": "$conditions",
+          if (genres != null) "genres": genres,
+          if (conditions != null) "conditions": conditions,
           if (minPrice != null) "minPrice": "$minPrice",
           if (maxPrice != null) "maxPrice": "$maxPrice",
           if (tradeMethod != null) "tradeMethod": tradeMethod,
           if (limit == null) 'page': "$page",
           if (limit != null) 'size': "$limit",
-          "userId":"$userId"
+          "userId": "$userId",
         },
       );
       final res = await http.get(url, headers: header);
+
+      print(url);
+      print(res.statusCode);
+      print(res.body);
 
       final data = jsonDecode(res.body);
       if (res.statusCode == 200) {

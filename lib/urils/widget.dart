@@ -3,6 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vinyl_groove2/urils/info.dart';
 import 'package:vinyl_groove2/urils/util.dart';
 
+Widget loadingWidget() {
+  return Center(child: CircularProgressIndicator());
+}
+
 Widget button({
   required BuildContext context,
   required String text,
@@ -37,7 +41,7 @@ Widget appBar1() {
     children: [
       Image.asset("assets/simbol/logo_vertical.png", height: 55),
       GestureDetector(
-         onTap: () => showMessage("해당 기능은 개발 중입니다."),
+        onTap: () => showMessage("해당 기능은 개발 중입니다."),
         child: Stack(
           alignment: Alignment.center,
           children: [

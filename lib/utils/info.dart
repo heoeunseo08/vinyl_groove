@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -31,6 +33,8 @@ border(Color colo0r) => OutlineInputBorder(
 );
 
 String won(dynamic value) => NumberFormat('#,###').format(value);
+
+Timer? alarmTimer;
 
 Map<String, String> genreCodes = {
   'ROCK': "Rock",

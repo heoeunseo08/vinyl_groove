@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vinyl_groove_test4/controller/alarm_controller.dart';
+import 'package:vinyl_groove_test4/screen/app/favorite_screen.dart';
 import 'package:vinyl_groove_test4/screen/app/home_screen.dart';
 import 'package:vinyl_groove_test4/screen/app/my_screen.dart';
 import 'package:vinyl_groove_test4/screen/app/search_screen.dart';
@@ -21,13 +25,15 @@ class _AppScreenState extends State<AppScreen> {
   List<Widget> get page => [
     HomeScreen(),
     SearchScreen(genre: widget.genre),
+    FavoriteScreen(),
     MyScreen(),
   ];
 
-  List<String> label = ['홈', '탐색', '마이페이지'];
+  List<String> label = ['홈', '탐색', '관심상품', '마이페이지'];
   List<IconData> icons = [
     Icons.home_outlined,
     CupertinoIcons.search,
+    Icons.favorite_border,
     Icons.person_outline_outlined,
   ];
 
@@ -35,6 +41,21 @@ class _AppScreenState extends State<AppScreen> {
   void initState() {
     super.initState();
     currentIndex = widget.index;
+
+    load();
+    alarmTimer = Timer.periodic(
+      Duration(seconds: 30),
+      (timer) async => await load(),
+    );
+  }
+  @override
+  dispose(){
+    super.dispose();
+  }
+
+  Future<void> load() async {
+    await AlarmController.alarmController.load();
+    setState(() {});
   }
 
   @override
@@ -55,6 +76,7 @@ class _AppScreenState extends State<AppScreen> {
           Expanded(child: item(0)),
           Expanded(child: item(1)),
           Expanded(child: item(2)),
+          Expanded(child: item(3)),
         ],
       ),
     );

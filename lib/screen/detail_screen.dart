@@ -296,19 +296,7 @@ class _DetailScreenState extends State<DetailScreen> {
       backgroundColor: bgColor,
       expandedHeight: 350,
       pinned: true,
-      leading: GestureDetector(
-        onTap: () => Navigator.pop(context),
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-          width: 20,
-          height: 20,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: bgColor.withOpacity(0.8),
-          ),
-          child: Icon(Icons.arrow_back_outlined, color: Colors.white, size: 23),
-        ),
-      ),
+      automaticallyImplyLeading: false,
       flexibleSpace: Stack(
         fit: StackFit.expand,
         children: [
@@ -339,6 +327,33 @@ class _DetailScreenState extends State<DetailScreen> {
                   end: Alignment.bottomCenter,
                   colors: [Colors.transparent, bgColor],
                 ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 45,
+            right: 0,
+            left: 0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: .spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: bgColor.withOpacity(0.8),
+                      ),
+                      child: Icon(Icons.arrow_back_outlined, color: Colors.white, size: 25),
+                    ),
+                  ),
+                  favorite_button(id: productController.detailModel!.id,size: 25)
+                ],
               ),
             ),
           ),

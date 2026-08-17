@@ -4,7 +4,7 @@ import 'package:vinyl_groove_test4/screen/app/app_screen.dart';
 import 'package:vinyl_groove_test4/screen/login_screen.dart';
 import 'package:vinyl_groove_test4/utils/info.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
@@ -24,6 +24,10 @@ class MyApp extends StatelessWidget {
           primary: mainColor,
           secondary: mainColor,
           surface: coverColor,
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: bgColor,
+          surfaceTintColor: bgColor,
         ),
         textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)),
       ),

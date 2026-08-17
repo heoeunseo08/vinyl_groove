@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vinyl_groove_test4/controller/product_controller.dart';
 import 'package:vinyl_groove_test4/model/product_model.dart';
+import 'package:vinyl_groove_test4/screen/barcode_screen.dart';
 import 'package:vinyl_groove_test4/screen/detail_screen.dart';
 import 'package:vinyl_groove_test4/utils/info.dart';
 import 'package:vinyl_groove_test4/utils/utils.dart';
@@ -19,6 +20,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   ProductController productController = ProductController();
+  ProductController barcodeController = ProductController();
   TextEditingController keyword_controller = TextEditingController();
   String? selectGenre;
   String? selectCondition;
@@ -26,6 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
   RangeValues price = const RangeValues(1000, 1000000);
   String selectSort = 'recent';
   bool filterUpDown = true;
+  String? barcode;
 
   @override
   void initState() {
@@ -47,6 +50,7 @@ class _SearchScreenState extends State<SearchScreen> {
       tradeMethod: selectTradeMethod,
       minPrice: price.start.round(),
       maxPrice: price.end >= 1000000 ? null : price.end.round(),
+      barcode: barcode,
     );
     setState(() {});
   }
@@ -74,9 +78,9 @@ class _SearchScreenState extends State<SearchScreen> {
             child: RefreshIndicator(
               onRefresh: () async => load(),
               child: SingleChildScrollView(
-                  child: Column(
+                child: Column(
                   children: [
-                    appbar(),
+                    appbar(context),
                     SizedBox(height: 4),
                     search(),
                     SizedBox(height: 20),
@@ -214,6 +218,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                 ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: favorite_button(id: model.id),
+                ),
               ],
             ),
             Padding(
@@ -251,23 +260,6 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget appbar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Image.asset("assets/simbol/logo_vertical.png", height: 60),
-        GestureDetector(
-          onTap: () => showMessage("해당 기능은 준비 중입니다."),
-          child: SvgPicture.asset(
-            "assets/icons/notification.svg",
-            height: 25,
-            color: Colors.white,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget search() {
     return TextFormField(
       controller: keyword_controller,
@@ -281,7 +273,7 @@ class _SearchScreenState extends State<SearchScreen> {
         enabledBorder: border(subColor.withValues(alpha: 0.4)),
         focusedBorder: border(subColor.withValues(alpha: 0.4)),
         hint: Text(
-          "앨범명, 아티스트 검색",
+          "앨범명, 아티스트",
           style: TextStyle(
             color: subColor.withValues(alpha: 0.5),
             fontSize: 16,
@@ -302,15 +294,27 @@ class _SearchScreenState extends State<SearchScreen> {
                 },
                 child: Icon(Icons.close, size: 25),
               ),
-            GestureDetector(
-              onTap: () => showMessage("해당 기능은 준비 중입니다."),
-              child: Icon(
-                CupertinoIcons.barcode_viewfinder,
+            GestureDetector(onTap: () async {
+              final scannedBarcode = await toPage<String?>(context, BarcodeScreen());
+              if (scannedBarcode != null && scannedBarcode.isNotEmpty) {
+                await barcodeController.loadList(barcode: scannedBarcode, reset: true);
+                if (!mounted) return;
+
+                if (barcodeController.productList.isNotEmpty) {
+                  final id = barcodeController.productList.first.id;
+                  toPage(context, DetailScreen(product_id: id));
+                } else {
+                  showMessage("$scannedBarcode에 해당하는 상품을 찾을 수 없습니다");
+                }
+              }
+            },
+              child: SvgPicture.asset(
+                "assets/icons/barcode-scan.svg",
                 color: subColor,
-                size: 30,
+                height: 25,
               ),
             ),
-            SizedBox(width: 12)
+            SizedBox(width: 12),
           ],
         ),
       ),
@@ -377,7 +381,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 onSelect: (value) => selectCondition = value,
               ),
               selectPrice(),
-              selectTradeMethods(),
+              selectChips(
+                title: '거래 방식',
+                codes: tradeMethodCodes,
+                selectItem: selectTradeMethod,
+                onSelect: (String? value) => selectTradeMethod = value,
+              ),
               SizedBox(),
             ],
           ),
@@ -406,7 +415,8 @@ class _SearchScreenState extends State<SearchScreen> {
             ],
           ),
         ),
-        Divider(color: subColor.withOpacity(0.2)),],
+        Divider(color: subColor.withValues(alpha: 0.2)),
+      ],
     );
   }
 
@@ -420,7 +430,14 @@ class _SearchScreenState extends State<SearchScreen> {
       children: [
         SizedBox(
           width: 70,
-          child: Text(title, style: TextStyle(color: subColor, fontWeight: FontWeight.w600, fontSize: 13)),
+          child: Text(
+            title,
+            style: TextStyle(
+              color: subColor,
+              fontWeight: FontWeight.w600,
+              fontSize: 13,
+            ),
+          ),
         ),
         Expanded(
           child: SingleChildScrollView(
@@ -440,47 +457,6 @@ class _SearchScreenState extends State<SearchScreen> {
               },
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget selectTradeMethods() {
-    return Row(
-      children: [
-        SizedBox(
-          width: 70,
-          child: Text(
-            '거래 방식',
-            style: TextStyle(
-              color: subColor,
-              fontWeight: FontWeight.w600,
-              fontSize: 13,
-            ),
-          ),
-        ),
-        Row(
-          spacing: 8,
-          children: [
-            chip(
-              text: "전체",
-              select: selectTradeMethod == null,
-              ontap: () async {
-                setState(() => selectTradeMethod = null);
-                await load();
-              },
-            ),
-            ...tradeMethodCodes.entries.map(
-                  (e) => chip(
-                text: e.value,
-                select: selectTradeMethod == e.key,
-                ontap: () async {
-                  setState(() => selectTradeMethod = e.key);
-                  await load();
-                },
-              ),
-            ),
-          ],
         ),
       ],
     );

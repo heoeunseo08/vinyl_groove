@@ -318,6 +318,7 @@ class _SignupScreenState extends State<SignupScreen> {
               Flexible(
                 flex: 3,
                 child: TextFormField(
+                  maxLength: 3,
                   textAlign: .center,
                   controller: phone1_controller,
                   focusNode: phone1,
@@ -328,6 +329,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     }
                   },
                   decoration: InputDecoration(
+                    counterText: '',
                     fillColor: Color(0xff101113),
                     filled: true,
                     border: border(subColor.withValues(alpha: 0.3)),
@@ -356,6 +358,7 @@ class _SignupScreenState extends State<SignupScreen> {
               Flexible(
                 flex: 4,
                 child: TextFormField(
+                  maxLength: 4,
                   textAlign: .center,
                   controller: phone2_controller,
                   focusNode: phone2,
@@ -366,6 +369,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   },
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: InputDecoration(
+                    counterText: '',
                     fillColor: Color(0xff101113),
                     filled: true,
                     border: border(subColor.withValues(alpha: 0.3)),
@@ -394,6 +398,7 @@ class _SignupScreenState extends State<SignupScreen> {
               Flexible(
                 flex: 4,
                 child: TextFormField(
+                  maxLength: 4,
                   textAlign: .center,
                   controller: phone3_controller,
                   focusNode: phone3,
@@ -404,6 +409,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   },
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: InputDecoration(
+                    counterText: '',
                     fillColor: Color(0xff101113),
                     filled: true,
                     border: border(subColor.withValues(alpha: 0.3)),
